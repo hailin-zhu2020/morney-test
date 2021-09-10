@@ -1,10 +1,14 @@
 <template>
-  <div>Money.vue</div>
+  <div>Money.vue
+    <Nav/>
+  </div>
 </template>
 
 <script>
+import Nav from '@/components/Nav.vue'
 export default {
-  name: "Money.vue"
+  name: "Money.vue",
+  components: {Nav}
 }
 </script>
 

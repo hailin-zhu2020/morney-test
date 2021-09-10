@@ -7,7 +7,7 @@ import store from './store'
 Vue.config.productionTip = false
 
 new Vue({
-   router,//router: router的省写方式
+ router,//router: router的省写方式
   store,
   render: h => h(App)
 }).$mount('#app')

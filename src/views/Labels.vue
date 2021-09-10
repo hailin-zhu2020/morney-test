@@ -1,10 +1,17 @@
 <template>
-<div>Labels.vue</div>
+  <div>Labels.vue
+    <Nav/>
+  </div>
+
 </template>
 
 <script>
+
+import Nav from "@/components/Nav";
+
 export default {
-  name: "Labels.vue"
+  name: "Labels.vue",
+  components: {Nav}
 }
 </script>
 
