@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="nav">
     <router-link to='/money'>记账</router-link>
     |
     <router-link to='/labels'>标签</router-link>
@@ -18,6 +18,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped> /*scoped表示有范围的，vue会添加一个[data-v-随机字符串]属性，解决了可能存在的重名问题*/
+.nav{
+  border:1px solid red;
+}
 </style>
