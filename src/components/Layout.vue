@@ -16,7 +16,6 @@ export default {
 
 <style scoped>
 .nav-wrapper{
-  border:1px solid green;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -24,6 +23,5 @@ export default {
 .content{
   flex-grow: 1;/*尽可能占最大高度*/
   overflow: auto;
-  border:1px solid blue;
 }
 </style>

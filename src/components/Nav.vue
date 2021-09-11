@@ -1,20 +1,21 @@
 <template>
-  <div class="nav">
-    <router-link to='/money'>
-      <Icon name = 'money'/>
+  <nav>
+    <router-link to='/money' class="item">
+      <Icon  name = 'money'/>
       记账
-   <!--选择用哪个symbol-->
     </router-link>
-    |
-    <router-link to='/labels'>
-      <Icon name="label"/>
-      标签</router-link>
-    |
-    <router-link to='/statistics'>
-      <Icon name="statistics"/>
-      统计</router-link>
 
-  </div>
+    <router-link to='/labels' class="item">
+      <Icon name="label"/>
+      标签
+    </router-link>
+
+    <router-link to='/statistics' class="item">
+      <Icon name="statistics"/>
+      统计
+     </router-link>
+
+  </nav>
 </template>
 <!--很多页面都要使用这个导航栏，所以把它做成一个组件，供需要使用的页面引用
 -->
@@ -27,7 +28,22 @@ export default {
 </script>
 
 <style lang="scss" scoped> /*scoped表示有范围的，vue会添加一个[data-v-随机字符串]属性，解决了可能存在的重名问题*/
-.nav{
-  border:1px solid red;
+nav{
+  display: flex;
+  box-shadow: 0 0 3px  rgba(0,0,0,0.25); //阴影的诀窍就是看不出
+  flex-direction: row;
+  font-size: 12px;
+  >.item{
+    padding: 2px 0;
+    width: 33.33333%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+      .icon{
+        width:32px;
+        height:32px;
+      }
+   }
 }
 </style>

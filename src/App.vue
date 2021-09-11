@@ -6,10 +6,13 @@
 
 
 <style lang="scss"> /*不能加scoped,因为App.vue的内容应该影响所有的页面*/
-body{
+*{
   margin:0;
   padding: 0;
   box-sizing: border-box;
+}
+body{
+  line-height:1.5;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
