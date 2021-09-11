@@ -14,6 +14,9 @@
 body{
   line-height:1.5;
 }
+a{
+  text-decoration: none;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
