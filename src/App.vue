@@ -6,35 +6,17 @@
 
 
 <style lang="scss"> /*不能加scoped,因为App.vue的内容应该影响所有的页面*/
-*{
-  margin:0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body{
-  line-height:1.5;
-}
-a{
-  text-decoration: none;
-}
+@import "~@/assets/style/reset.scss";
+@import "~@/assets/style/helper.scss";
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+  -webkit-font-smoothing: antialiased;//在苹果电脑上有效
+  -moz-osx-font-smoothing: grayscale;//在苹果电脑上有效
+  color: #333;
+  line-height:1.5;
+  font-family:$font-hei;
+} //多个团队不放body里，放这里；不过所有的标签都要写在这里，不然不会遵循这个要求
+//一个人开发的话，可以放到body里
 
-#nav {
-  padding: 30px;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>

@@ -29,6 +29,7 @@ export default {
 </script>
 
 <style lang="scss" scoped> /*scoped表示有范围的，vue会添加一个[data-v-随机字符串]属性，解决了可能存在的重名问题*/
+@import "~@/assets/style/helper.scss";
 nav{
   display: flex;
   box-shadow: 0 0 3px  rgba(0,0,0,0.25); //阴影的诀窍就是看不出
@@ -48,7 +49,7 @@ nav{
       }
    }
   > .item.selected{
-    color:red;
+    color:$color-highlight;
   }
 }
 </style>
