@@ -13,10 +13,10 @@
   -webkit-font-smoothing: antialiased;//在苹果电脑上有效
   -moz-osx-font-smoothing: grayscale;//在苹果电脑上有效
   color: #333;
+  font-size:16px;
   line-height:1.5;
   font-family:$font-hei;
 } //多个团队不放body里，放这里；不过所有的标签都要写在这里，不然不会遵循这个要求
 //一个人开发的话，可以放到body里
-
 
 </style>

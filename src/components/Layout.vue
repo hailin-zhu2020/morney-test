@@ -1,6 +1,7 @@
 <template>
-  <div class="nav-wrapper">
-    <div class="content">
+  <div class="layout-wrapper" :class="classPrefix && `${classPrefix}-wrapper`">
+    <div class="content" :class="classPrefix && `${classPrefix}-content`">
+<!-- class会合并-->
      <slot/>
 <!--插槽，接受引用该组件的组件传过来的内容-->
     </div>
@@ -10,12 +11,13 @@
 
 <script>
 export default {
+  props:['classPrefix'],
   name: "Layout.vue"
 }
 </script>
 
 <style scoped>
-.nav-wrapper{
+.layout-wrapper{
   display: flex;
   flex-direction: column;
   height: 100vh;
