@@ -1,7 +1,6 @@
 <template>
 
   <Layout class-prefix = 'layout'>
-    {{record}}
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
     <Types :value.sync ="record.types" />
     <Notes @update:value="onUpdateNotes"/>
@@ -19,11 +18,14 @@ import NumberPad from '@/components/money/NumberPad.vue';
 import Tags from '@/components/money/Tags.vue';
 import Notes from '@/components/money/Notes.vue';
 
+const recordList:Record[]= JSON.parse(window.localStorage.getItem("recordList")||'[]');
+
 type Record={
   tags:string[]
   notes:string
   types:string
-  amount:number
+  amount:number //数据类型
+  createAt?:Date //类或者叫构造函数 //？表示可以不存在
 }//类型声明
 @Component({
   components: {Tags, Notes, Types, NumberPad}
@@ -31,7 +33,7 @@ type Record={
 
 export default class Money extends Vue{
   tags=['衣','食','住','行'];
-  recordList:Record[]=[];
+  recordList:Record[]=recordList;
   record:Record = {tags:[],notes:'',types:'-',amount:0}; //定义变量并初始化
   // 如果有初始值，可以不用类型声明
   onUpdateTags(value:string[]){
@@ -41,7 +43,8 @@ export default class Money extends Vue{
    this.record.notes = value;
   }
   saveRecord(){
-    const record2 = JSON.parse(JSON.stringify(this.record));//深拷贝一下，每次都将record的副本存入recordList
+    const record2:Record= JSON.parse(JSON.stringify(this.record));//深拷贝一下，每次都将record的副本存入recordList
+    record2.createAt = new Date();
     this.recordList.push(record2);
     console.log(this.recordList);
   }
