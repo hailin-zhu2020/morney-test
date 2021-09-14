@@ -7,47 +7,52 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "Types",
-  props:['xxx'],
-  data(){
-     return{
-       type:'-'//‘-’表示支出，'+'表示收入
-     }
-  },
-  mounted() {
-    console.log(this.xxx);
-  },
-  methods:{
-    selectType(type){//type只能是'-'和'+'中的一个
-      if(type!=='-' && type!=='+'){
-        throw new Error('type is unknown');
-      }
-      this.type=type;
+
+<script lang="ts"> //TS=JS:类型
+//1类型提示：更智能的提示
+//2编译时报错：但不会停，会把报错的地方删掉，没报错的地方转成JS
+//3类型检查：无法点出错误的属性
+
+
+import Vue from 'vue';
+import {Component, Prop} from 'vue-property-decorator'; //装饰器，自动添加没有的data,methouds
+
+@Component
+export default class Types extends Vue {
+  type = '-';//‘-’表示支出，'+'表示收入
+
+
+
+  selectType(type:string) {//type只能是'-'和'+'中的一个
+    if (type !== '-' && type !== '+') {
+      throw new Error('type is unknown');
     }
-  },
+    this.type = type;
+  }
+
 
 }
 </script>
 
 <style lang="scss" scoped>
-.types{
+.types {
   background: #c4c4c4;
   display: flex;
   font-size: 24px;
   text-align: center;
-  > li{
+
+  > li {
     width: 50%;
     height: 64px;
     display: flex;
     justify-content: center;
     align-items: center;
-    position:relative;
-    &.selected::after{//&表示自身
-      content:'';
+    position: relative;
+
+    &.selected::after { //&表示自身
+      content: '';
       position: absolute;
-      bottom:0;
+      bottom: 0;
       left: 0;
       width: 100%;
       height: 4px;
