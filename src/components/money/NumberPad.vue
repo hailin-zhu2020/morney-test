@@ -1,6 +1,6 @@
 <template>
   <div class="numberPad">
-    <div class="output">{{ output || '0' }}</div>
+    <div class="output">{{ output || '&nbsp;' }}</div>
     <div class="buttons">
       <button @click="inputContent">1</button>
       <button @click="inputContent">2</button>
@@ -22,12 +22,13 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Component from 'vue-class-component';
+
+import {Component, Prop, Watch} from 'vue-property-decorator';
 
 @Component
 export default class NumberPad extends Vue {
-
-  output = ''; //小数点不显示，所以用字符串类型
+  @Prop() readonly value!:number;
+  output = this.value.toString(); //小数点不显示，所以用字符串类型
   inputContent(event: MouseEvent) {
     const button = (event.target as HTMLButtonElement);// 强制指定类型，vue和TS的结合不好导致的
     const input = button.textContent !;//！排空 或者写as string
@@ -56,8 +57,9 @@ export default class NumberPad extends Vue {
     this.output = '0';
   }
   ok(){
-    console.log('hi');
+    this.$emit('update:value',this.output);
   }
+
 
 }
 </script>
