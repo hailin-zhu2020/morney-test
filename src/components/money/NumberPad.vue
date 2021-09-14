@@ -58,6 +58,7 @@ export default class NumberPad extends Vue {
   }
   ok(){
     this.$emit('update:value',this.output);
+    this.$emit('submit',this.output);//防止出bug,所以写两个触发
   }
 
 

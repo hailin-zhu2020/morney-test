@@ -2,7 +2,7 @@
 
   <Layout class-prefix = 'layout'>
     {{record}}
-    <NumberPad :value.sync="record.amount" />
+    <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
     <Types :value.sync ="record.types" />
     <Notes @update:value="onUpdateNotes"/>
     <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
@@ -13,7 +13,7 @@
 
 import Vue from 'vue';
 
-import {Component} from 'vue-property-decorator';
+import {Component, Watch} from 'vue-property-decorator';
 import Types from '@/components/money/Types.vue';
 import NumberPad from '@/components/money/NumberPad.vue';
 import Tags from '@/components/money/Tags.vue';
@@ -31,6 +31,7 @@ type Record={
 
 export default class Money extends Vue{
   tags=['衣','食','住','行'];
+  recordList:Record[]=[];
   record:Record = {tags:[],notes:'',types:'-',amount:0}; //定义变量并初始化
   // 如果有初始值，可以不用类型声明
   onUpdateTags(value:string[]){
@@ -38,6 +39,15 @@ export default class Money extends Vue{
   }
   onUpdateNotes(value:string){
    this.record.notes = value;
+  }
+  saveRecord(){
+    const record2 = JSON.parse(JSON.stringify(this.record));//深拷贝一下，每次都将record的副本存入recordList
+    this.recordList.push(record2);
+    console.log(this.recordList);
+  }
+  @Watch('recordList')
+  onRecordListChange(){
+    window.localStorage.setItem('recordList',JSON.stringify(this.recordList));
   }
 
 

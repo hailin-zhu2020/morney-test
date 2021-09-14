@@ -25,6 +25,7 @@ export default class Types extends Vue {
       throw new Error('type is unknown');
     }
    this.$emit('update:value',type);
+
   }
 
 }
