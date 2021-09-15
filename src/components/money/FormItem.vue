@@ -7,7 +7,7 @@
       <input type="text"
              :value="value"
              @input="onValueChanged($event.target.value)"
-             :placeholder="this.placeholder"/>
+             :placeholder="placeholder"/>
     </label>
   </div>
 </template>
@@ -22,7 +22,6 @@ export default class FormItem extends Vue {
   @Prop({required: true}) filedName!: string;
   @Prop() placeholder?: string;
 
-  @Watch('value')
   onValueChanged(value: string) {
     this.$emit('update:value', value);//触发当前实例上的事件。附加参数都会传给监听器回调。
   }
