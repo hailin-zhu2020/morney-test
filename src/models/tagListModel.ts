@@ -1,4 +1,6 @@
 /* eslint-disable */
+import createId from '@/lib/createId';
+
 const localStorageKeyName = 'tagList';
 type Tag = {
     id: string;
@@ -7,8 +9,8 @@ type Tag = {
 type TagListModel = {
     data: Tag[];
     fetch: () => Tag[];
-    update: (id: string, name: string) => 'success' | 'duplicated';
-    create: (name: string) => 'success' | 'not found' | 'duplicated'; //联合类型
+    update: (id: string, name: string) => 'success' | 'duplicated' | 'not found';
+    create: (name: string) => 'success' | 'duplicated'; //联合类型
     remove: (id: string) => boolean;
     save: () => void;
 }//变量和方法都可以类型申明
@@ -24,7 +26,8 @@ const tagListModel: TagListModel = {
         if (names.indexOf(name) >= 0) {
             return 'duplicated';
         }
-        this.data.push({id: name, name: name});
+        const id = createId().toString();
+        this.data.push({id: id, name: name});
         this.save();
         return 'success';
     },
@@ -37,7 +40,6 @@ const tagListModel: TagListModel = {
             } else {
                 const tag = this.data.filter(t => t.id === id)[0];
                 tag.name = name;
-                tag.id = name;
                 this.save();
                 return 'success';
             }
