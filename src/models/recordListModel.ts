@@ -1,7 +1,7 @@
 //mvc重构，写model代码
 /* eslint-disable */
 const localStorageKeyName = 'recordList';
-const model = {
+const recordListModel = {
     clone(data: RecordItem[] | RecordItem) {
         return JSON.parse(JSON.stringify(data));
     },//深拷贝，返回data的值
@@ -13,4 +13,4 @@ const model = {
         window.localStorage.setItem(localStorageKeyName, JSON.stringify(data));
     }//保存数据
 };
-export default model;
+export default recordListModel;

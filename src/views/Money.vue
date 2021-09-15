@@ -18,16 +18,17 @@ import NumberPad from '@/components/money/NumberPad.vue';
 import Tags from '@/components/money/Tags.vue';
 import Notes from '@/components/money/Notes.vue';
 
-import model from '@/model';
+import recordListModel from '@/models/recordListModel';
+import tagListModel from '@/models/tagListModel';
 /* eslint-disable */
-const recordList = model.fetch();
-
+const recordList = recordListModel.fetch();
+const tagList = tagListModel.fetch();
 @Component({
   components: {Tags, Notes, Types, NumberPad}
 })
 
 export default class Money extends Vue {
-  tags = ['衣', '食', '住', '行'];
+  tags = tagList;
   recordList: RecordItem[] = recordList;
   record: RecordItem = {tags: [], notes: '', types: '-', amount: 0}; //定义变量并初始化
   // 如果有初始值，可以不用类型声明
@@ -40,14 +41,14 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    const record2: RecordItem = model.clone(this.record);
+    const record2: RecordItem = recordListModel.clone(this.record);
     record2.createAt = new Date();
     this.recordList.push(record2);
     console.log(this.recordList);
   }
   @Watch('recordList')
   onRecordListChange(){
-    model.save(this.recordList);
+    recordListModel.save(this.recordList);
   }
 
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     <router-view/><!--    组件显示的位置-->
   </div>
 </template>
@@ -10,12 +10,13 @@
 @import "~@/assets/style/helper.scss";
 
 #app {
-  -webkit-font-smoothing: antialiased;//在苹果电脑上有效
-  -moz-osx-font-smoothing: grayscale;//在苹果电脑上有效
+  -webkit-font-smoothing: antialiased; //在苹果电脑上有效
+  -moz-osx-font-smoothing: grayscale; //在苹果电脑上有效
   color: #333;
-  font-size:16px;
-  line-height:1.5;
-  font-family:$font-hei;
+  font-size: 16px;
+  line-height: 1.5;
+  font-family: $font-hei;
+  background: #f5f5f5;
 } //多个团队不放body里，放这里；不过所有的标签都要写在这里，不然不会遵循这个要求
 //一个人开发的话，可以放到body里
 
