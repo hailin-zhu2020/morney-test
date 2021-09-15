@@ -3,9 +3,11 @@
   <Layout class-prefix='layout'>
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
     <Types :value.sync="record.types"/>
-    <Notes filed-name="备注"
-           placeholder="在这里输入备注"
-           @update:value="onUpdateNotes"/>
+    <div class="notes">
+      <FormItem filed-name="备注"
+                placeholder="在这里输入备注"
+                @update:value="onUpdateNotes"/>
+    </div>
     <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
   </Layout>
 </template>
@@ -18,7 +20,7 @@ import {Component, Watch} from 'vue-property-decorator';
 import Types from '@/components/money/Types.vue';
 import NumberPad from '@/components/money/NumberPad.vue';
 import Tags from '@/components/money/Tags.vue';
-import Notes from '@/components/money/Notes.vue';
+import FormItem from '@/components/money/FormItem.vue';
 
 import recordListModel from '@/models/recordListModel';
 import tagListModel from '@/models/tagListModel';
@@ -26,7 +28,7 @@ import tagListModel from '@/models/tagListModel';
 const recordList = recordListModel.fetch();
 const tagList = tagListModel.fetch();
 @Component({
-  components: {Tags, Notes, Types, NumberPad}
+  components: {Tags, FormItem, Types, NumberPad}
 })
 
 export default class Money extends Vue {
@@ -58,11 +60,14 @@ export default class Money extends Vue {
 }
 </script>
 <style lang="scss"> //没有scoped，就能影响其他的组件
- .layout-content{
-    display: flex;
-   flex-direction: column-reverse; //从底部开始布局
- }
+.layout-content {
+  display: flex;
+  flex-direction: column-reverse; //从底部开始布局
+}
 
+.notes {
+  padding: 12px 0;
+}
 </style>
 
 

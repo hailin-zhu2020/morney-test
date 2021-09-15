@@ -47,18 +47,21 @@ export default class Tags extends Vue{
 <style lang="scss" scoped>
 .tags{
   flex-grow: 1; //将剩下的空间全部占满
-  font-size:14px;
-  padding:16px;
+  font-size: 14px;
+  padding: 16px;
   display: flex;
   flex-direction: column-reverse;
-  >.new{
+  background: white;
+
+  > .new {
     padding-top: 16px;
-    button{
+
+    button {
       background: transparent;
       border: none; //原button的border丑，所以要先全去掉
       color: #999;
-      border-bottom:1px solid;
-      padding:0 4px; //细节
+      border-bottom: 1px solid;
+      padding: 0 4px; //细节
     }
   }
   > .current{
