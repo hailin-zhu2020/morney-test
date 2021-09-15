@@ -6,7 +6,7 @@
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <FormItem filed-name="标签名" placeholder="请输入标签名"/>
+      <FormItem :value="tag.name" filed-name="标签名" placeholder="请输入标签名"/>
     </div>
     <div class="button-wrapper">
       <Button>删除标签</Button>
@@ -27,13 +27,14 @@ import Button from '@/components/Button.vue';
 })
 
 export default class EditLabel extends Vue {
+  tag?: { id: string, name: string } = undefined; //？表示可以为空
   created() {
     const id = this.$route.params.id;//路由相关的放$route,路由器相关的放$router
     tagListModel.fetch();
     const tags = tagListModel.data;
     const tag = tags.filter(t => t.id === id)[0];
     if (tag) {
-      console.log(tag);
+      this.tag = tag;
     } else {
       this.$router.replace('/404');//转发 replace可回退，
       // push回去了也会自动跳转到404页面，从而导致不能回退
