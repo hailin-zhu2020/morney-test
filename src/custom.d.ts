@@ -1,4 +1,4 @@
-/*定义全局类型*/
+/*全局变量类型声明*/
 type RecordItem = {
     tags: string[]
     notes: string
@@ -21,5 +21,8 @@ type TagListModel = {
 
 interface Window {
     tagList: Tag[];
+    findTag: (id: string) => Tag | undefined;
     createTag: (name: string) => void;
+    removeTag: (id: string) => boolean;
+    updateTag: (id: string, name: string) => 'success' | 'duplicated' | 'not found';//TagListModel['update']
 }

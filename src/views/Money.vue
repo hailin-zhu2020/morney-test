@@ -23,7 +23,6 @@ import Tags from '@/components/money/Tags.vue';
 import FormItem from '@/components/money/FormItem.vue';
 
 import recordListModel from '@/models/recordListModel';
-import tagListModel from '@/models/tagListModel';
 /* eslint-disable */
 const recordList = recordListModel.fetch();
 

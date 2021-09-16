@@ -21,7 +21,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import tagListModel from '@/models/tagListModel';
 import FormItem from '@/components/money/FormItem.vue';
 import Button from '@/components/Button.vue';
 
@@ -30,14 +29,9 @@ import Button from '@/components/Button.vue';
 })
 
 export default class EditLabel extends Vue {
-  tag?: { id: string, name: string } = undefined; //？表示可以为空
+  tag = window.findTag(this.$route.params.id);//？表示可以为空,//路由相关的信息放$route,路由器转发相关的放$router
   created() {
-    const id = this.$route.params.id;//路由相关的放$route,路由器相关的放$router
-    const tags = window.tagList;
-    const tag = tags.filter(t => t.id === id)[0];
-    if (tag) {
-      this.tag = tag;
-    } else {
+    if (!this.tag) {
       this.$router.replace('/404');//转发 replace可回退，
       // push回去了也会自动跳转到404页面，从而导致不能回退
     }
@@ -45,13 +39,13 @@ export default class EditLabel extends Vue {
 
   update(name: string) {
     if (this.tag) {
-      tagListModel.update(this.tag.id, name);
+      window.updateTag(this.tag.id, name);
     }
   }
 
   remove() {
     if (this.tag) {
-      if (tagListModel.remove(this.tag.id)) {
+      if (window.removeTag(this.tag.id)) {
         this.$router.back();
       } else {
         window.alert('刪除失敗！');
