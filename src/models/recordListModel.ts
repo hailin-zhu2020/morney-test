@@ -1,12 +1,15 @@
 //mvc重构，写model代码
 /* eslint-disable */
+import clone from '@/lib/clone';
+
 const localStorageKeyName = 'recordList';
 const recordListModel = {
     data: [] as RecordItem[],
-    clone(data: RecordItem[] | RecordItem) {
-        return JSON.parse(JSON.stringify(data));
-    },//深拷贝，返回data的值
-
+    create(record: RecordItem) {
+        const record2: RecordItem = clone(record);
+        record2.createAt = new Date();
+        this.data.push(record2);
+    },
     fetch() {
         this.data = JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]') as RecordItem[];//强制返回值类型
         return this.data;
