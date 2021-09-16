@@ -15,9 +15,17 @@ Vue.component('Layout', Layout);
 Vue.component('Icon', Icon);
 
 window.tagList = tagListModel.fetch(); //数据变成全局变量，使得各页面引用同一个数据
-
+window.createTag = (name: string) => {
+    const message = tagListModel.create(name);
+    //提示用户成功或者异常原因
+    if (message === 'duplicated') {
+        window.alert('标签重复！');
+    } else if (message === 'success') {
+        window.alert('添加成功!');
+    }
+};
 new Vue({
- router,//router: router的省写方式
- store,
- render: h => h(App)
+    router,//router: router的省写方式
+    store,
+    render: h => h(App)
 }).$mount('#app');
