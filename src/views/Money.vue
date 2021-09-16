@@ -8,7 +8,7 @@
                 placeholder="在这里输入备注"
                 @update:value="onUpdateNotes"/>
     </div>
-    <Tags :data-source.sync="tags" @update:value="onUpdateTags"/>
+    <Tags/>
   </Layout>
 </template>
 
@@ -32,10 +32,7 @@ export default class Money extends Vue {
   tags = store.tagList;
   recordList = store.recordList;
   record: RecordItem = {tags: [], notes: '', types: '-', amount: 0}; //定义变量并初始化
-  // 如果有初始值，可以不用类型声明
-  onUpdateTags(value: string[]) {
-    this.record.tags = value;
-  }
+
 
   onUpdateNotes(value: string) {
     this.record.notes = value;
