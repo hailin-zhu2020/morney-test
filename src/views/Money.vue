@@ -23,16 +23,15 @@ import Tags from '@/components/money/Tags.vue';
 import FormItem from '@/components/money/FormItem.vue';
 
 import recordListModel from '@/models/recordListModel';
-/* eslint-disable */
-const recordList = recordListModel.fetch();
 
+/* eslint-disable */
 @Component({
   components: {Tags, FormItem, Types, NumberPad}
 })
 
 export default class Money extends Vue {
   tags = window.tagList;
-  recordList: RecordItem[] = recordList;
+  recordList = window.recordList;
   record: RecordItem = {tags: [], notes: '', types: '-', amount: 0}; //定义变量并初始化
   // 如果有初始值，可以不用类型声明
   onUpdateTags(value: string[]) {
@@ -46,12 +45,6 @@ export default class Money extends Vue {
   saveRecord() {
     recordListModel.create(this.record);
   }
-  @Watch('recordList')
-  onRecordListChange(){
-    recordListModel.save();
-  }
-
-
 
 }
 </script>
