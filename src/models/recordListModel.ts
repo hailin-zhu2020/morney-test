@@ -2,15 +2,17 @@
 /* eslint-disable */
 const localStorageKeyName = 'recordList';
 const recordListModel = {
+    data: [] as RecordItem[],
     clone(data: RecordItem[] | RecordItem) {
         return JSON.parse(JSON.stringify(data));
     },//深拷贝，返回data的值
 
     fetch() {
-        return JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]') as RecordItem[];//强制返回值类型
+        this.data = JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]') as RecordItem[];//强制返回值类型
+        return this.data;
     },//获取数据
-    save(data: RecordItem[]) {
-        window.localStorage.setItem(localStorageKeyName, JSON.stringify(data));
+    save() {
+        window.localStorage.setItem(localStorageKeyName, JSON.stringify(this.data));
     }//保存数据
 };
 export default recordListModel;
