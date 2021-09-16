@@ -33,8 +33,7 @@ export default class EditLabel extends Vue {
   tag?: { id: string, name: string } = undefined; //？表示可以为空
   created() {
     const id = this.$route.params.id;//路由相关的放$route,路由器相关的放$router
-    tagListModel.fetch();
-    const tags = tagListModel.data;
+    const tags = window.tagList;
     const tag = tags.filter(t => t.id === id)[0];
     if (tag) {
       this.tag = tag;

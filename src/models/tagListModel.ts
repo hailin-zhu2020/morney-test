@@ -2,19 +2,6 @@
 import createId from '@/lib/createId';
 
 const localStorageKeyName = 'tagList';
-type Tag = {
-    id: string;
-    name: string;
-}
-type TagListModel = {
-    data: Tag[];
-    fetch: () => Tag[];
-    update: (id: string, name: string) => 'success' | 'duplicated' | 'not found';
-    create: (name: string) => 'success' | 'duplicated'; //联合类型
-    remove: (id: string) => boolean;
-    save: () => void;
-}//变量和方法都可以类型申明
-
 const tagListModel: TagListModel = {
     data: [],
     fetch() {
