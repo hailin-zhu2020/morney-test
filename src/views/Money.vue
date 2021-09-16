@@ -16,13 +16,12 @@
 
 import Vue from 'vue';
 
-import {Component, Watch} from 'vue-property-decorator';
+import {Component} from 'vue-property-decorator';
 import Types from '@/components/money/Types.vue';
 import NumberPad from '@/components/money/NumberPad.vue';
 import Tags from '@/components/money/Tags.vue';
 import FormItem from '@/components/money/FormItem.vue';
-
-import recordListModel from '@/models/recordListModel';
+import store from '@/store/index2.ts'
 
 /* eslint-disable */
 @Component({
@@ -30,8 +29,8 @@ import recordListModel from '@/models/recordListModel';
 })
 
 export default class Money extends Vue {
-  tags = window.tagList;
-  recordList = window.recordList;
+  tags = store.tagList;
+  recordList = store.recordList;
   record: RecordItem = {tags: [], notes: '', types: '-', amount: 0}; //定义变量并初始化
   // 如果有初始值，可以不用类型声明
   onUpdateTags(value: string[]) {
@@ -43,7 +42,7 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    recordListModel.create(this.record);
+    store.createRecord(this.record);
   }
 
 }

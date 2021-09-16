@@ -19,13 +19,5 @@ type TagListModel = {
     save: () => void;
 }//变量和方法都可以类型申明
 
-interface Window {
-    tagList: Tag[];
-    findTag: (id: string) => Tag | undefined;
-    createTag: (name: string) => void;
-    removeTag: (id: string) => boolean;
-    updateTag: (id: string, name: string) => 'success' | 'duplicated' | 'not found';//TagListModel['update']
-    recordList: RecordItem[];
-    createRecord: (record: RecordItem) => void;
-}
+
 
