@@ -36,7 +36,7 @@ export default class Money extends Vue {
   record: RecordItem = {tags: [], notes: '', types: '-', amount: 0}; //定义变量并初始化
 
   created() {
-    this.$store.state.commit('fetchRecords');
+    this.$store.commit('fetchRecords');
   }
 
   onUpdateNotes(value: string) {

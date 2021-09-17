@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import clone from '@/lib/clone'
+import createId from '@/lib/createId'
 
 Vue.use(Vuex);//把store绑到Vue.prototype.$store=store;store是从main.ts传过来的
 
 const store = new Vuex.Store({
     state: {//data
         recordList: [] as RecordItem[],
+        tagList: [] as Tag[]
     },
     mutations: {//放同步调用methods//不能用this,因为没有
         fetchRecords(state) {
@@ -24,6 +26,25 @@ const store = new Vuex.Store({
             window.localStorage.setItem('recordList',
                 JSON.stringify(state.recordList));
         },//保存数据
+        fetchTags(state) {
+            state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');//强制返回值类型
+            return state.tagList;
+        },
+        createTag(state, name: string) {
+            const names = state.tagList.map(item => item.name);
+            if (names.indexOf(name) >= 0) {
+                window.alert('添加成功!');
+                return 'duplicated';
+            }
+            const id = createId().toString();
+            state.tagList.push({id: id, name: name});
+            store.commit('saveTags');
+            window.alert('添加成功!');
+            return 'success';
+        },
+        saveTags(state) {
+            window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
+        }
     },
     actions: {//放异步调用的方法
 
