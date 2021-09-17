@@ -25,13 +25,17 @@ import FormItem from '@/components/money/FormItem.vue';
 import Button from '@/components/Button.vue';
 
 @Component({
-  components: {Button, FormItem}
+  components: {Button, FormItem},
 })
-
+/*eslint-disable*/
 export default class EditLabel extends Vue {
-  //TODO
-  tag = {}//store.findTag(this.$route.params.id);//？表示可以为空,//路由相关的信息放$route,路由器转发相关的放$router
+  get tag() {
+    return this.$store.state.currentTag;
+  }
+
   created() {
+    const id = this.$route.params.id;//路由相关的信息放$route,路由器转发相关的放$router
+    this.$store.commit('setCurrentTag', id);
     if (!this.tag) {
       this.$router.replace('/404');//转发 replace可回退，
       // push回去了也会自动跳转到404页面，从而导致不能回退
