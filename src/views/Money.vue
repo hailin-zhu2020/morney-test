@@ -25,15 +25,13 @@ import FormItem from '@/components/money/FormItem.vue';
 /* eslint-disable */
 @Component({
   components: {Tags, FormItem, Types, NumberPad},
-  computed: { //计算属性会自动计算依赖
-    recordList() {
-      return this.$store.state.recordList;
-    }
-  }
 })
 
 export default class Money extends Vue {
   record: RecordItem = {tags: [], notes: '', types: '-', amount: 0}; //定义变量并初始化
+  get recordList() {
+    return this.$store.state.recordList;
+  }
 
   created() {
     this.$store.commit('fetchRecords');
