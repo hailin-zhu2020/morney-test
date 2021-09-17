@@ -6,7 +6,7 @@
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <FormItem :value="tag.name"
+      <FormItem :value="currentTag.name"
                 @update:value="update"
                 filed-name="标签名"
                 placeholder="请输入标签名"/>
@@ -29,7 +29,7 @@ import Button from '@/components/Button.vue';
 })
 /*eslint-disable*/
 export default class EditLabel extends Vue {
-  get tag() {
+  get currentTag() {
     return this.$store.state.currentTag;
   }
 
@@ -37,21 +37,21 @@ export default class EditLabel extends Vue {
     const id = this.$route.params.id;//路由相关的信息放$route,路由器转发相关的放$router
     this.$store.commit('fetchTags'); //防止刷新页面之后没有数据
     this.$store.commit('setCurrentTag', id);
-    if (!this.tag) {
+    if (!this.currentTag) {
       this.$router.replace('/404');//转发 replace可回退，
       // push回去了也会自动跳转到404页面，从而导致不能回退
     }
   }
 
   update(name: string) {
-    if (this.tag) {
-      this.$store.commit('updateTag', {id: this.tag.id, name});//name:name
+    if (this.currentTag) {
+      this.$store.commit('updateTag', {id: this.currentTag.id, name});//name:name
     }
   }
 
   remove() {
-    if (this.tag) {
-      this.$store.commit('removeTag', this.tag.id);
+    if (this.currentTag) {
+      this.$store.commit('removeTag', this.currentTag.id);
     }
   }
 
