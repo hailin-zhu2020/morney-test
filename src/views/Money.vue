@@ -21,28 +21,34 @@ import Types from '@/components/money/Types.vue';
 import NumberPad from '@/components/money/NumberPad.vue';
 import Tags from '@/components/money/Tags.vue';
 import FormItem from '@/components/money/FormItem.vue';
-import store from '@/store/index2.ts'
 
 /* eslint-disable */
 @Component({
-  components: {Tags, FormItem, Types, NumberPad}
+  components: {Tags, FormItem, Types, NumberPad},
+  computed: { //计算属性会自动计算依赖
+    recordList() {
+      return this.$store.state.recordList;
+    }
+  }
 })
 
 export default class Money extends Vue {
-  tags = store.tagList;
-  recordList = store.recordList;
   record: RecordItem = {tags: [], notes: '', types: '-', amount: 0}; //定义变量并初始化
 
+  created() {
+    this.$store.state.commit('fetchRecords');
+  }
 
   onUpdateNotes(value: string) {
     this.record.notes = value;
   }
 
   saveRecord() {
-    store.createRecord(this.record);
+    this.$store.commit('createRecord', this.record);
   }
 
 }
+
 </script>
 <style lang="scss"> //没有scoped，就能影响其他的组件
 .layout-content {
