@@ -35,6 +35,7 @@ export default class EditLabel extends Vue {
 
   created() {
     const id = this.$route.params.id;//路由相关的信息放$route,路由器转发相关的放$router
+    this.$store.commit('fetchTags'); //防止刷新页面之后没有数据
     this.$store.commit('setCurrentTag', id);
     if (!this.tag) {
       this.$router.replace('/404');//转发 replace可回退，
@@ -44,20 +45,13 @@ export default class EditLabel extends Vue {
 
   update(name: string) {
     if (this.tag) {
-      //TODO
-      //store.updateTag(this.tag.id, name);
+      this.$store.commit('updateTag', {id: this.tag.id, name});//name:name
     }
   }
 
   remove() {
     if (this.tag) {
-      //TODO
-      return;
-      // if (store.removeTag(this.tag.id)) {
-      //   this.$router.back();
-      // } else {
-      //   window.alert('刪除失敗！');
-      // }
+      this.$store.commit('removeTag', this.tag.id);
     }
   }
 
