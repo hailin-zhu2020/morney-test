@@ -21,6 +21,9 @@ export default class Tabs extends Vue {
   @Prop(String)
   readonly classPrefix?: string;//？表示可能是undefined,！表示绝对不可能是undefined
 
+  @Prop({type: String, default: '64px'})
+  height!: string;//使用JS来添加不同的高度，目前是使用css添加，没有使用这个方法
+
   liClass(item: DataSourceItem) {
     return {
       [this.classPrefix + '-tabs-item']: this.classPrefix,
