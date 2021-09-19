@@ -37,7 +37,7 @@ export default class Statistics extends Vue {
     return tags.length === 0 ? '无' : tags.join(',');//将tags换一下格式
   }
 
-  beautify(string) {
+  beautify(string: string) {
     const day = dayjs(string);
     const now = dayjs();//变化的今天
     if (day.isSame(now, 'day')) {
