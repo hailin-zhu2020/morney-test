@@ -7,7 +7,7 @@ type RootState = {
 type RecordItem = {
     tags: Tag[]
     notes: string
-    types: string
+    type: string
     amount: number //数据类型
     createAt?: string //Date json不支持Date //类或者叫构造函数 //？表示可以不存在
 }//类型声明
