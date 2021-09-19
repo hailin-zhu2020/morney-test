@@ -2,7 +2,7 @@
 <template>
   <Layout class-prefix='layout'>
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
-    <Tabs :data-source="recordTypeList" :value.sync="record.types"/>
+    <Tabs :data-source="recordTypeList" :value.sync="record.type"/>
     <div class="notes">
       <FormItem filed-name="备注"
                 placeholder="在这里输入备注"
@@ -29,7 +29,7 @@ import Tabs from '@/components/Tabs.vue'
 })
 
 export default class Money extends Vue {
-  record: RecordItem = {tags: [], notes: '', types: '-', amount: 0}; //定义变量并初始化
+  record: RecordItem = {tags: [], notes: '', type: '-', amount: 0}; //定义变量并初始化
   recordTypeList = recordTypeList;
 
   get recordList() {

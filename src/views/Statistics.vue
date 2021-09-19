@@ -1,10 +1,9 @@
 <template>
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-    <Tabs class-prefix="interval" :data-source="intervalList" :value.sync="interval"/>
     <ol>
       <li v-for="(group,index) in groupedList" :key="index">
-        <h3 class="title">{{ beautify(group.title) }}</h3>
+        <h3 class="title">{{ beautify(group.title) }}<span>￥{{ group.total }}</span></h3>
         <ol>
           <li class="record" v-for="item in group.items" :key="item.id">{{ item.id }}
             <span>{{ tagString(item.tags) }}</span>
@@ -24,7 +23,6 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator'
 import Tabs from '@/components/Tabs.vue'
-import intervalList from '@/constants/intervalList'
 import recordTypeList from '@/constants/recordTypeList'
 import dayjs from 'dayjs';
 import clone from '@/lib/clone'
@@ -62,11 +60,13 @@ export default class Statistics extends Vue {
   get groupedList() {
     const {recordList} = this;
     if (recordList.length === 0) {return [];}
+    const newList = clone(recordList)
+        .filter(item => item.type === this.type)  //分成收入和支出两类
+        .sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf()); //从大到小排序
 
-    //const hashTable : { title:string,items:RecordItem[]}[];//hashTable用来分类存储
-    const newList = clone(recordList).sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf()); //从大到小排序
+    type Result = { title: string, total?: number, items: RecordItem[] }[];
 
-    const result = [{title: dayjs(newList[0].createAt).format('YYYY-MM-DD'), items: [newList[0]]}];//初始化为第一项
+    const result: Result = [{title: dayjs(newList[0].createAt).format('YYYY-MM-DD'), items: [newList[0]]}];//定义并初始化第一项
 
     for (let i = 0; i < newList.length; i++) {
       const current = newList[i];//当前项
@@ -77,16 +77,17 @@ export default class Statistics extends Vue {
         result.push({title: dayjs(current.createAt).format('YYYY-MM-DD'), items: [current]})
       }
     }
+    result.map(group => {
+      group.total = group.items.reduce((sum, item) => sum += item.amount, 0); //map有返回值，forEach无返回值
+    })
     return result;
   }
 
-  mounted() {
+  created() {
     this.$store.commit('fetchRecords');
   }
 
   type = '-';
-  interval = 'day';
-  intervalList = intervalList
   recordTypeList = recordTypeList;
 }
 </script>
@@ -116,10 +117,10 @@ export default class Statistics extends Vue {
 
 ::v-deep {
   .type-tabs-item { //::v-deep deep语法 用来影响子组件
-    background: white;
+    background: #c4c4c4;
 
     &.selected {
-      background: #c4c4c4;
+      background: white;
 
       &::after {
         display: none;
