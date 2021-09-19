@@ -30,7 +30,7 @@ import Tabs from '@/components/Tabs.vue'
 
 export default class Money extends Vue {
   record: RecordItem = {tags: [], notes: '', types: '-', amount: 0}; //定义变量并初始化
-  recordTypeList = recordTypeList
+  recordTypeList = recordTypeList;
 
   get recordList() {
     return this.$store.state.recordList;
