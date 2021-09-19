@@ -27,7 +27,7 @@ import {Component, Prop, Watch} from 'vue-property-decorator';
 
 @Component
 export default class NumberPad extends Vue {
-  @Prop() readonly value!:number;
+  @Prop(Number) readonly value!: number;
   output = this.value.toString(); //小数点不显示，所以用字符串类型
   inputContent(event: MouseEvent) {
     const button = (event.target as HTMLButtonElement);// 强制指定类型，vue和TS的结合不好导致的
@@ -56,9 +56,10 @@ export default class NumberPad extends Vue {
   clear(){
     this.output = '0';
   }
-  ok(){
-    this.$emit('update:value',this.output);
-    this.$emit('submit',this.output);//防止出bug,所以写两个触发
+  ok() {
+    const number = parseFloat(this.output);
+    this.$emit('update:value', number);
+    this.$emit('submit', number);//防止出bug,所以写两个触发
     this.output = '0';//记录之后，置0
   }
 
