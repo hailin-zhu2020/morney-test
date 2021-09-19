@@ -5,7 +5,7 @@ type RootState = {
     currentTag?: Tag
 }//store里面用到的数据类型
 type RecordItem = {
-    tags: string[]
+    tags: Tag[]
     notes: string
     types: string
     amount: number //数据类型
