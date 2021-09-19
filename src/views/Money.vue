@@ -52,7 +52,7 @@ export default class Money extends Vue {
 }
 
 </script>
-<style lang="scss"> //没有scoped，就能影响其他的组件
+<style lang="scss" scoped> //没有scoped，就能影响其他的组件
 .layout-content {
   display: flex;
   flex-direction: column-reverse; //从底部开始布局

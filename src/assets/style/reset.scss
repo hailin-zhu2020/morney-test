@@ -9,11 +9,16 @@ a{
   color: inherit;
 }
 ol,ul{
-  list-style: none;
+  list-style: none; //去掉点
 }
 button,input{
   font:inherit;//button和input的font默认不会继承父元素
 }
-:focus{
-  outline:none;
+
+:focus {
+  outline: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal; //去掉默认样式
 }
