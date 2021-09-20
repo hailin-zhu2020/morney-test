@@ -2,6 +2,7 @@
 type RootState = {
     recordList: RecordItem[],
     createRecordError: Error | null,
+    createTagError: Error | null,
     tagList: Tag[],
     currentTag?: Tag
 }//store里面用到的数据类型
