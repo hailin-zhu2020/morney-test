@@ -9,23 +9,23 @@ Vue.use(Vuex);//把store绑到Vue.prototype.$store=store;store是从main.ts传�
 const store = new Vuex.Store({
     state: {//data
         recordList: [] as RecordItem[],
+        createRecordError: null,
         tagList: [] as Tag[],
         currentTag: undefined
     } as RootState,
     mutations: {//放同步调用methods//不能用this,因为没有
+        /*eslint-disable*/
         setCurrentTag(state, id: string) {
             state.currentTag = state.tagList.filter(t => t.id === id)[0];
         },
         fetchRecords(state) {
             state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];//强制返回值类型
         },
-        createRecord(state, record) {
-            const record2: RecordItem = clone(record);
+        createRecord(state, record: RecordItem) {
+            const record2 = clone(record);
             record2.createAt = new Date().toISOString();
             state.recordList.push(record2);//也可用可选链语法：this.recordList?.push(record2);非常新
-            console.log(state.recordList);
-            //recordStore.saveRecords();
-            store.commit('saveRecords')
+            store.commit('saveRecords');
         },
         saveRecords(state) {
             window.localStorage.setItem('recordList',
@@ -33,6 +33,13 @@ const store = new Vuex.Store({
         },//保存数据
         fetchTags(state) {
             state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');//强制返回值类型
+
+            if (!state.tagList || state.tagList.length === 0) {
+                store.commit('createTag', '衣');
+                store.commit('createTag', '食');
+                store.commit('createTag', '住');
+                store.commit('createTag', '行');
+            }
         },
         createTag(state, name: string) {
             const names = state.tagList.map(item => item.name);

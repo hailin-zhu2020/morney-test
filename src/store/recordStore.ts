@@ -18,6 +18,7 @@ const recordStore = {
         record2.createAt = new Date().toISOString(); //ISO8601
         this.recordList && this.recordList.push(record2);//也可用可选链语法：this.recordList?.push(record2);非常新
         recordStore.saveRecords();
+        window.alert("已保存");
     },
 }
 recordStore.fetchRecords();

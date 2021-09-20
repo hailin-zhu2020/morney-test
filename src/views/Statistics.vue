@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-    <ol>
+    <ol v-if="groupedList.length>0">
       <li v-for="(group,index) in groupedList" :key="index">
         <h3 class="title">{{ beautify(group.title) }}<span>￥{{ group.total }}</span></h3>
         <ol>
@@ -9,12 +9,13 @@
             <span>{{ tagString(item.tags) }}</span>
             <span class="notes">{{ item.notes }}</span>
             <span>￥{{ item.amount }}</span>
-
           </li>
         </ol>
       </li>
     </ol>
-
+    <div v-else class="noResult">
+      目前没有相关记录
+    </div>
   </Layout>
 </template>
 
@@ -34,7 +35,7 @@ import clone from '@/lib/clone'
 /* eslint-disable*/
 export default class Statistics extends Vue {
   tagString(tags: Tag[]) {
-    return tags.length === 0 ? '无' : tags.join(',');//将tags换一下格式
+    return tags.length === 0 ? '无' : tags.map(t => t.name).join('，');//将tags换一下格式
   }
 
   beautify(string: string) {
@@ -59,16 +60,14 @@ export default class Statistics extends Vue {
 
   get groupedList() {
     const {recordList} = this;
-    if (recordList.length === 0) {return [];}
     const newList = clone(recordList)
         .filter(item => item.type === this.type)  //分成收入和支出两类
         .sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf()); //从大到小排序
-
+    if (newList.length === 0) {return [];}
     type Result = { title: string, total?: number, items: RecordItem[] }[];
 
     const result: Result = [{title: dayjs(newList[0].createAt).format('YYYY-MM-DD'), items: [newList[0]]}];//定义并初始化第一项
-
-    for (let i = 0; i < newList.length; i++) {
+    for (let i = 1; i < newList.length; i++) {
       const current = newList[i];//当前项
       const last = result[result.length - 1];//最后一项,因为是最早的
       if (dayjs(last.title).isSame(dayjs(current.createAt), 'day')) {
@@ -83,7 +82,7 @@ export default class Statistics extends Vue {
     return result;
   }
 
-  created() {
+  beforeCreate() {
     this.$store.commit('fetchRecords');
   }
 
@@ -92,6 +91,29 @@ export default class Statistics extends Vue {
 }
 </script>
 <style lang="scss" scoped>
+.noResult {
+  padding: 16px 0;
+  text-align: center;
+}
+
+::v-deep {
+  .type-tabs-item { //::v-deep deep语法 用来影响子组件
+    background: #c4c4c4;
+
+    &.selected {
+      background: white;
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  .interval-tabs-item {
+    height: 48px;
+  }
+}
+
 %item {
   padding: 6px 16px;
   line-height: 24px; //即支撑高度，又设置垂直对齐
@@ -114,24 +136,5 @@ export default class Statistics extends Vue {
   margin-left: 16px;
   color: #999;
 }
-
-::v-deep {
-  .type-tabs-item { //::v-deep deep语法 用来影响子组件
-    background: #c4c4c4;
-
-    &.selected {
-      background: white;
-
-      &::after {
-        display: none;
-      }
-    }
-  }
-
-  .interval-tabs-item {
-    height: 48px;
-  }
-}
-
 
 </style>
