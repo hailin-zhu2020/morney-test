@@ -78,6 +78,7 @@ export default class NumberPad extends Vue {
     font-family: Consolas, monospace; //设置等宽字体
     padding: 9px 16px;
     text-align: right; //文本对齐方式
+    height: 76px;
   }
 
   .buttons {
@@ -120,8 +121,12 @@ export default class NumberPad extends Vue {
         background: darken($bg, 4*4%); //darken为颜色函数
       }
 
-      &:nth-child(12), &:nth-child(14) {
+      &:nth-child(14) {
         background: darken($bg, 4*5%); //darken为颜色函数
+      }
+
+      &:nth-child(12) {
+        background: darken($bg, 4*6%); //darken为颜色函数
       }
     }
 
