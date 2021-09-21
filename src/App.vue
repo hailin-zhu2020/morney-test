@@ -17,6 +17,9 @@
   line-height: 1.5;
   font-family: $font-hei;
   background: #f5f5f5;
+  max-width: 500px;
+  margin: 0 auto;
+
 } //多个团队不放body里，放这里；不过所有的标签都要写在这里，不然不会遵循这个要求
 //一个人开发的话，可以放到body里
 
