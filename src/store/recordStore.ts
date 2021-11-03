@@ -15,7 +15,7 @@ const recordStore = {
     },//保存数据
     createRecord(record: RecordItem) {
         const record2: RecordItem = clone(record);
-        record2.createAt = new Date().toISOString(); //ISO8601
+        record2.createAt = record2.createAt || new Date().toISOString(); //ISO8601 //设置默认值
         this.recordList && this.recordList.push(record2);//也可用可选链语法：this.recordList?.push(record2);非常新
         recordStore.saveRecords();
         window.alert("已保存");
