@@ -24,8 +24,12 @@ const store = new Vuex.Store({
         },
         createRecord(state, record: RecordItem) {
             const record2 = clone(record);
-            record2.createAt = new Date().toISOString();
-            state.recordList.push(record2);//也可用可选链语法：this.recordList?.push(record2);非常新
+
+            record2.createAt = record2.createAt || new Date().toISOString();//保底值设在后面
+            console.log("record2.createAt");
+            console.log(record2.createAt);
+
+            state.recordList.push(record2); //也可用可选链语法：this.recordList?.push(record2);非常新
             store.commit('saveRecords');
         },
         saveRecords(state) {

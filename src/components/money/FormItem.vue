@@ -4,8 +4,8 @@
       <span class="name">
         {{ this.filedName }}
       </span>
-      <template v-if="type==='date'">
-        <input :type="type || 'text'"
+      <template v-if="type === 'date'">
+        <input :type="type"
                :value="x(value)"
                @input="onValueChanged($event.target.value)"
                :placeholder="placeholder"/>
@@ -36,13 +36,16 @@ export default class FormItem extends Vue {
   @Prop() type?: string;
 
   onValueChanged(value: string) {
+    console.log("value");
+    console.log(value);
     this.$emit('update:value', value);//触发当前实例上的事件。附加参数都会传给监听器回调。
   }
 
   x(isoString: string) {
-    //return dayjs(isoString).format('YYYY-MM-DDTHH:mm:ss')//日和时之间加T，变成isoString时间格式
-    return dayjs(isoString).format('YYYY-MM-DD')
-  }
+    console.log("isoString");
+    console.log(isoString);
+    return dayjs(isoString).format('YYYY-MM-DD');
+  }//处理时间
 }
 </script>
 
