@@ -21,5 +21,5 @@ module.exports = {
     
     config.plugin('svg-sprite').use(require('svg-sprite-loader-mod/plugin'),[{planSprite: true}])
     config.module.rule('svg').exclude.add(dir)//其他svg loader排除icons目录
-  }
+  },
 }

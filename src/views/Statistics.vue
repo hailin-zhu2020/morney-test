@@ -1,6 +1,7 @@
 <template>
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
+    <ECharts :options="x"/>
     <ol v-if="groupedList.length>0">
       <li v-for="(group,index) in groupedList" :key="index">
         <h3 class="title">{{ beautify(group.title) }}<span>￥{{ group.total }}</span></h3>
@@ -16,6 +17,7 @@
     <div v-else class="noResult">
       目前没有相关记录
     </div>
+
   </Layout>
 </template>
 
@@ -28,12 +30,22 @@ import recordTypeList from '@/constants/recordTypeList'
 import dayjs from 'dayjs';
 import clone from '@/lib/clone'
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+//const ECharts:any = require('vue-echarts').default
+import ECharts from 'vue-echarts'
+import 'echarts/lib/chart/line'
+import 'echarts/lib/component/polar'
+
+
+console.log("ECharts")
+console.log(ECharts)
 
 @Component({
-  components: {Tabs},
+  components: {Tabs,ECharts},
 })
 /* eslint-disable*/
 export default class Statistics extends Vue {
+
   tagString(tags: Tag[]) {
     return tags.length === 0 ? '无' : tags.map(t => t.name).join('，');//将tags换一下格式
   }
@@ -51,6 +63,52 @@ export default class Statistics extends Vue {
       return day.format('M月D日')
     } else {
       return day.format('YYYY年M月D日');
+    }
+  }
+  get x(){
+    let data = []
+
+    for (let i = 0; i <= 360; i++) {
+      let t = i / 180 * Math.PI
+      let r = Math.sin(2 * t) * Math.cos(2 * t)
+      data.push([r, i])
+
+    }
+    console.log('hi')
+
+    return {
+      title: {
+        text: '极坐标双数值轴'
+      },
+      legend: {
+        data: ['line']
+      },
+      polar: {
+        center: ['50%', '54%']
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross'
+        }
+      },
+      angleAxis: {
+        type: 'value',
+        startAngle: 0
+      },
+      radiusAxis: {
+        min: 0
+      },
+      series: [
+        {
+          coordinateSystem: 'polar',
+          name: 'line',
+          type: 'line',
+          showSymbol: false,
+          data: data
+        }
+      ],
+      animationDuration: 2000
     }
   }
 
