@@ -1,7 +1,8 @@
 <template>
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-    <ECharts :options="x"/>
+    <Chart
+        class="echarts" :options="x"/>
     <ol v-if="groupedList.length>0">
       <li v-for="(group,index) in groupedList" :key="index">
         <h3 class="title">{{ beautify(group.title) }}<span>￥{{ group.total }}</span></h3>
@@ -29,19 +30,10 @@ import Tabs from '@/components/Tabs.vue'
 import recordTypeList from '@/constants/recordTypeList'
 import dayjs from 'dayjs';
 import clone from '@/lib/clone'
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-//const ECharts:any = require('vue-echarts').default
-import ECharts from 'vue-echarts'
-import 'echarts/lib/chart/line'
-import 'echarts/lib/component/polar'
-
-
-console.log("ECharts")
-console.log(ECharts)
+import Chart from '@/components/Chart.vue'
 
 @Component({
-  components: {Tabs,ECharts},
+  components: {Tabs, Chart},
 })
 /* eslint-disable*/
 export default class Statistics extends Vue {
@@ -66,49 +58,34 @@ export default class Statistics extends Vue {
     }
   }
   get x(){
-    let data = []
-
-    for (let i = 0; i <= 360; i++) {
-      let t = i / 180 * Math.PI
-      let r = Math.sin(2 * t) * Math.cos(2 * t)
-      data.push([r, i])
-
-    }
-    console.log('hi')
-
     return {
-      title: {
-        text: '极坐标双数值轴'
+      xAxis: {
+        type: 'category',
+        data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+          '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+          '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',]
       },
-      legend: {
-        data: ['line']
-      },
-      polar: {
-        center: ['50%', '54%']
-      },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'cross'
-        }
-      },
-      angleAxis: {
-        type: 'value',
-        startAngle: 0
-      },
-      radiusAxis: {
-        min: 0
+      yAxis: {
+        type: 'value'
       },
       series: [
         {
-          coordinateSystem: 'polar',
-          name: 'line',
+          data: [150, 230, 224, 218, 135, 147, 260,
+            150, 230, 224, 218, 135, 147, 260,
+            150, 230, 224, 218, 135, 147, 260,
+            150, 230, 224, 218, 135, 147, 260,
+            150, 450
+          ],
           type: 'line',
-          showSymbol: false,
-          data: data
+
         }
+
       ],
-      animationDuration: 2000
+      tooltip: {
+        show: true,
+        triggerOn: 'click'
+      }
+
     }
   }
 
@@ -149,6 +126,12 @@ export default class Statistics extends Vue {
 }
 </script>
 <style lang="scss" scoped>
+.echarts {
+  max-width: 100%;
+  min-height: 400px;
+
+}
+
 .noResult {
   padding: 16px 0;
   text-align: center;
@@ -194,5 +177,6 @@ export default class Statistics extends Vue {
   margin-left: 16px;
   color: #999;
 }
+
 
 </style>
