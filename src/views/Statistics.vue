@@ -1,8 +1,10 @@
 <template>
   <Layout>
     <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type"/>
-    <Chart
-        class="echarts" :options="x"/>
+    <div class="chart-wrapper" ref = "chartWrapper">
+      <Chart class="chart" :options="x"/>
+    </div>
+
     <ol v-if="groupedList.length>0">
       <li v-for="(group,index) in groupedList" :key="index">
         <h3 class="title">{{ beautify(group.title) }}<span>￥{{ group.total }}</span></h3>
@@ -57,16 +59,27 @@ export default class Statistics extends Vue {
       return day.format('YYYY年M月D日');
     }
   }
+  mounted(){
+    (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999//vue2里用ts没有类型，所以不得不手动设置类型
+  }
   get x(){
     return {
       xAxis: {
         type: 'category',
         data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
           '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-          '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',]
+          '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',],
+        axisTick:{
+          alignWithLabel:true,//刻度线与标签对齐
+        },
+        axisLine:{
+          color:'#666'
+        }
+
       },
       yAxis: {
-        type: 'value'
+        type: 'value',
+        show:false
       },
       series: [
         {
@@ -77,14 +90,27 @@ export default class Statistics extends Vue {
             150, 450
           ],
           type: 'line',
+          symbolSize:12,//设置点点的大小
+          symbol:"circle",//设置点点的样式
+          itemStyle:{
+            borderWidth:1,
+            borderColor:'#666',
+            color:'#666'
+          },
 
         }
 
       ],
       tooltip: {
         show: true,
-        triggerOn: 'click'
-      }
+        triggerOn: 'click',
+        position:'top',
+        formatter: '{c}'
+      },
+      grid: {
+        left: 0,
+        right: 0,
+      }//解决图表echarts和入容器div之间的空白，类似padding
 
     }
   }
@@ -176,6 +202,15 @@ export default class Statistics extends Vue {
   margin-right: auto;
   margin-left: 16px;
   color: #999;
+}
+.chart{
+  width:430%;//视口宽度的5倍
+  &-wrapper{
+    overflow: auto;//加在父容器上
+    &::-webkit-scrollbar {
+      display: none;//从dom中删除scrollbar,电脑上要按shift+滚轮才能看见
+    }
+  }
 }
 
 
