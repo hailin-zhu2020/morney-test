@@ -60,7 +60,8 @@ export default class Statistics extends Vue {
     }
   }
   mounted(){
-    (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999//vue2里用ts没有类型，所以不得不手动设置类型
+    const div = this.$refs.chartWrapper as HTMLDivElement;//vue2里用ts没有类型，所以不得不手动设置类型
+    div.scrollLeft = div.scrollWidth//尽量不要写死某个值，scroll的左边距离左边有scroll的宽度大小
   }
   get x(){
     return {
