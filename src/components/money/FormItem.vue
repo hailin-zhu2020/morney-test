@@ -36,14 +36,10 @@ export default class FormItem extends Vue {
   @Prop() type?: string;
 
   onValueChanged(value: string) {
-    console.log("value");
-    console.log(value);
     this.$emit('update:value', value);//触发当前实例上的事件。附加参数都会传给监听器回调。
   }
 
   x(isoString: string) {
-    console.log("isoString");
-    console.log(isoString);
     return dayjs(isoString).format('YYYY-MM-DD');
   }//处理时间
 }

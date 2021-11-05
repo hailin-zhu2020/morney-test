@@ -33,6 +33,8 @@ import recordTypeList from '@/constants/recordTypeList'
 import dayjs from 'dayjs';
 import clone from '@/lib/clone'
 import Chart from '@/components/Chart.vue'
+import _ from 'lodash' //lodash用来简化js操作
+import day from 'dayjs'
 
 @Component({
   components: {Tabs, Chart},
@@ -59,22 +61,45 @@ export default class Statistics extends Vue {
       return day.format('YYYY年M月D日');
     }
   }
-  mounted(){
+
+  mounted() {
     const div = this.$refs.chartWrapper as HTMLDivElement;//vue2里用ts没有类型，所以不得不手动设置类型
     div.scrollLeft = div.scrollWidth//尽量不要写死某个值，scroll的左边距离左边有scroll的宽度大小
   }
-  get x(){
+
+  get y() {//处理图标的数据
+    const today = new Date();
+    const array = []
+    for (let i = 0; i <= 29; i++) {//从今天往前推时间，并求每天用过的钱
+      const date = day(today).subtract(i, 'day').format('YYYY-MM-DD');
+      const found = _.find(this.recordList, {createAt: date});
+      array.push({date: date, value: found ? found.amount : 0})
+    }
+    array.sort((a, b) => {//a,b指array的任意两项
+      if (a.date > b.date) {
+        return 1;
+      } else if (a.date === b.date) {
+        return 0;
+      } else {
+        return -1;
+      }
+    })//array从小到大排序
+    return array
+  }
+
+  get x() {
+    const keys = this.y.map(item => item.date);//用map获得每组数据的date
+    const values = this.y.map(item => item.value);
+
     return {
       xAxis: {
         type: 'category',
-        data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-          '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
-          '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',],
-        axisTick:{
-          alignWithLabel:true,//刻度线与标签对齐
+        data: keys,
+        axisTick: {
+          alignWithLabel: true,//刻度线与标签对齐
         },
-        axisLine:{
-          color:'#666'
+        axisLine: {
+          color: '#666'
         }
 
       },
@@ -84,19 +109,14 @@ export default class Statistics extends Vue {
       },
       series: [
         {
-          data: [150, 230, 224, 218, 135, 147, 260,
-            150, 230, 224, 218, 135, 147, 260,
-            150, 230, 224, 218, 135, 147, 260,
-            150, 230, 224, 218, 135, 147, 260,
-            150, 450
-          ],
+          data: values,
           type: 'line',
-          symbolSize:12,//设置点点的大小
-          symbol:"circle",//设置点点的样式
-          itemStyle:{
-            borderWidth:1,
-            borderColor:'#666',
-            color:'#666'
+          symbolSize: 12,//设置点点的大小
+          symbol: "circle",//设置点点的样式
+          itemStyle: {
+            borderWidth: 1,
+            borderColor: '#666',
+            color: '#666'
           },
 
         }
