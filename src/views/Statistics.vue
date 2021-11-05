@@ -72,8 +72,8 @@ export default class Statistics extends Vue {
     const array = []
     for (let i = 0; i <= 29; i++) {//从今天往前推时间，并求每天用过的钱
       const dateString = day(today).subtract(i, 'day').format('YYYY-MM-DD');
-      const found = _.find(this.recordList, {createAt: dateString});
-      array.push({key: dateString, value: found ? found.amount : 0})
+      const found = _.find(this.groupedList, {title: dateString});
+      array.push({key: dateString, value: found ? found.total : 0})
     }
     array.sort((a, b) => {//a,b指array的任意两项
       if (a.key > b.key) {
@@ -90,7 +90,6 @@ export default class Statistics extends Vue {
   get chartOptions() {
     const keys = this.keyValueList.map(item => item.key);//用map获得每组数据的date
     const values = this.keyValueList.map(item => item.value);
-
     return {
       xAxis: {
         type: 'category',
@@ -141,6 +140,7 @@ export default class Statistics extends Vue {
   }
 
   get groupedList() {
+    console.log('groupedList被读取了')
     const {recordList} = this;
     const newList = clone(recordList)
         .filter(item => item.type === this.type)  //分成收入和支出两类
